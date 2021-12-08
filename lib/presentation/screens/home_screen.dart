@@ -1,3 +1,5 @@
+import 'package:counter_app/constants/enums.dart';
+import 'package:counter_app/logic/cubits/internet_cubit.dart';
 import 'package:counter_app/presentation/screens/second_screen.dart';
 import 'package:counter_app/presentation/screens/third_screen.dart';
 import "package:flutter/material.dart";
@@ -28,6 +30,22 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            BlocBuilder<InternetCubit, InternetState>(
+              builder: (context, state) {
+                if (state is InternetConnected &&
+                    state.connectionType == ConnectionType.wifi) {
+                  return Container(
+                    child: const Text("You are connected to Wi-fi"),
+                  );
+                } else if (state is InternetConnected &&
+                    state.connectionType == ConnectionType.mobile) {
+                  return Container(
+                    child: const Text("You are connected to mobile internet"),
+                  );
+                }
+                return CircularProgressIndicator();
+              },
+            ),
             const Text(
               "You have pushed the button this many times:",
             ),
